@@ -1,0 +1,138 @@
+Below is a README.md template for your GitHub repository based on the step-by-step guide:
+
+Llama 3 Docker Setup Guide
+
+This repository provides instructions for setting up and running the Llama 3 model locally using Docker and the Ollama container. Follow this guide to start generating text with Llama 3.
+
+Table of Contents
+
+	1.	Prerequisites
+	2.	Setup Instructions
+	•	Install Docker
+	•	Pull the Ollama Docker Image
+	•	Run the Ollama Container
+	•	Download the Llama 3 Model
+	3.	Testing the API
+	•	Using cURL
+	•	Using Postman
+	4.	Troubleshooting
+	5.	License
+
+Prerequisites
+
+Before starting, ensure you have the following installed on your system:
+	•	Docker: Get Docker
+	•	Minimum hardware requirements:
+	•	At least 8 GB of RAM (for smaller models)
+	•	A machine capable of running Docker containers
+
+Setup Instructions
+
+1. Install Docker
+
+Linux
+
+sudo apt update
+sudo apt install docker.io
+
+macOS/Windows
+
+	•	Download and install Docker Desktop.
+
+Verify the installation:
+
+docker --version
+
+2. Pull the Ollama Docker Image
+
+Download the latest Ollama image from Docker Hub:
+
+docker pull ollama/ollama:latest
+
+3. Run the Ollama Container
+
+Start the Ollama container:
+
+docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama:latest
+
+	•	-d: Run the container in detached mode.
+	•	-v ollama:/root/.ollama: Create a Docker volume to persist model data.
+	•	-p 11434:11434: Map port 11434 from the container to your host machine.
+	•	--name ollama: Assign the name ollama to the container.
+
+Verify the container is running:
+
+docker ps
+
+4. Download the Llama 3 Model
+
+Download the Llama 3 model into the container:
+
+docker exec -it ollama ollama pull llama3
+
+Testing the API
+
+Once the container is running and the Llama 3 model is loaded, you can test the API using cURL or Postman.
+
+Using cURL
+
+Send a request to generate text:
+
+curl http://localhost:11434/api/generate -d '{"model": "llama3", "prompt": "Write me a poem about the ocean."}'
+
+Example response:
+
+{
+  "completion": "The ocean waves rolled endlessly, a mirror of the sky...",
+  "usage": {
+    "tokens_used": 45
+  }
+}
+
+Using Postman
+
+	1.	Open Postman and create a new request.
+	2.	Set the request type to POST.
+	3.	Enter the URL: http://localhost:11434/api/generate
+	4.	Add the following header:
+	•	Content-Type: application/json
+	5.	Add this JSON payload in the Body (set type to raw):
+
+{
+  "model": "llama3",
+  "prompt": "Write a story about a brave explorer.",
+  "stream": false
+}
+
+
+	6.	Click Send to get the response.
+
+Troubleshooting
+
+	1.	Container Not Found:
+Ensure the Ollama container is running:
+
+docker ps
+
+If it isn’t listed, restart or create the container:
+
+docker start ollama
+
+
+	2.	Model Not Found:
+Ensure the Llama 3 model is downloaded:
+
+docker exec -it ollama ollama pull llama3
+
+
+	3.	Check Logs:
+View container logs for errors:
+
+docker logs ollama
+
+
+	4.	Update Ollama:
+Update the Docker image to the latest version:
+
+docker pull ollama/ollama:latest
+
