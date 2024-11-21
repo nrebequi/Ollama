@@ -68,6 +68,11 @@ Download the Llama 3 model into the container:
 
 docker exec -it ollama ollama pull llama3
 
+
+For small models: 
+docker exec -it ollama ollama pull mistral-small
+
+
 Testing the API
 
 Once the container is running and the Llama 3 model is loaded, you can test the API using cURL or Postman.
